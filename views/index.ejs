@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internship Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    main {
+      flex: 1; /* Ensures the main content takes up available space */
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <header class="bg-blue-600 text-white py-6">
+    <div class="container mx-auto text-center">
+      <h1 class="text-4xl font-bold">Internship Portal</h1>
+      <p class="mt-2 text-lg">Connecting Students and Professors for Opportunities</p>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <section class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-4">About the Portal</h2>
+      <p class="text-gray-700">
+        Welcome to the Internship Portal! This platform allows professors to post internship opportunities and students to apply for them. Students can upload their resumes, and professors can review and select candidates based on their criteria.
+      </p>
+    </section>
+
+    <section class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold mb-4">For Students</h3>
+        <p class="text-gray-700 mb-4">
+          Apply for internships, upload your resume, and track your application status.
+        </p>
+        <a href="/auth/login" class="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-700">Student Login</a>
+        <a href="/auth/signup" class="bg-blue-600 text-white px-2 py-2 rounded-md hover:bg-blue-700">Student Signup</a>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold mb-4">For Professors</h3>
+        <p class="text-gray-700 mb-4">
+          Post internship opportunities, review student applications, and manage selections.
+        </p>
+        <a href="/auth/login" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Professor Login</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-4 mt-8">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2023 Internship Portal. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
