@@ -54,34 +54,29 @@
     <main class="container mx-auto px-4 py-6">
         <section class="bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 class="text-xl font-semibold mb-4">Upload Resume</h2>
-            <form action="/student/upload-resume" method="post">
+            <form id="resume-form">
                 <div class="mb-4">
                     <label for="resume" class="block text-gray-700">Resume Link</label>
                     <input type="url" id="resume" name="resume" class="w-full p-2 border rounded-md"
                         placeholder="<%= user['Resume Link'] || 'Enter your resume link here' %>" required>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button type="submit"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Save</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Save</button>
                     <% if (user['Resume Link']) { %>
                         <a href="<%= user['Resume Link'] %>" target="_blank"
                             class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
                             Preview
                         </a>
-                        <% } %>
+                    <% } %>
                 </div>
             </form>
+            
         </section>
 
         <section class="bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-xl font-semibold mb-4">Available Internships</h2>
-            <div class="space-y-4">
-                <div class="border p-4 rounded-lg">
-                    <h3 class="text-lg font-semibold">Internship Title</h3>
-                    <p class="text-gray-700">Criteria: GPA > 3.5, CS Major</p>
-                    <p class="text-gray-700">Status: <span class="font-semibold text-blue-600">In Process</span></p>
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mt-2">Apply</button>
-                </div>
+            <div id="internship-list" class="space-y-4">
+                <!-- Internships will be dynamically loaded here -->
             </div>
         </section>
     </main>
@@ -125,6 +120,103 @@
         function closeModal() {
             document.getElementById('editModal').classList.remove('active');
         }
+
+        // Function to fetch internships from the API
+        async function fetchInternships() {
+            try {
+            // Extract userId from the EJS variable
+            const userId = "<%= user._id %>"; // Assuming `user._id` contains the userId
+
+            // Call the API with the userId
+            const response = await fetch(`/student/internships/${userId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch internships');
+            }
+            const internships = await response.json();
+
+            // Get the internship list container
+            const internshipList = document.getElementById('internship-list');
+            internshipList.innerHTML = ''; // Clear any existing content
+
+            // Populate the list with fetched internships
+            internships.forEach((internship) => {
+                const internshipId = internship._id; // Assuming each internship has a unique ID
+                const hasApplied = internship.applicants.includes(userId);
+                const internshipCard = document.createElement('div');
+                internshipCard.className = 'border p-4 rounded-lg';
+                internshipCard.innerHTML = `
+                <h3 class="text-lg font-semibold">${internship.title}</h3>
+                <p class="text-gray-700">Company: ${internship.company}</p>
+                <p class="text-gray-700">Location: ${internship.location}</p>
+                ${
+                    hasApplied
+                        ? `<button class="bg-gray-400 text-white px-4 py-2 rounded-md mt-2 cursor-not-allowed" disabled>Applied</button>`
+                        : `<button onclick="applyForInternship('${internshipId}')" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mt-2">Apply</button>`
+                }
+                `;
+                internshipList.appendChild(internshipCard);
+            });
+            } catch (error) {
+            console.error('Error fetching internships:', error);
+            const internshipList = document.getElementById('internship-list');
+            internshipList.innerHTML = '<p class="text-red-500">Failed to load internships. Please try again later.</p>';
+            }
+        }
+
+        async function applyForInternship(internshipId) {
+            try {
+                const userId = "<%= user._id %>";
+                const response = await fetch(`/student/${userId}/apply/${internshipId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to apply for internship');
+                }
+                const result = await response.json();
+                alert(result.message);
+                // Replace the "Apply" button with a non-clickable "Applied" button
+                const applyButton = document.querySelector(`button[onclick="applyForInternship('${internshipId}')"]`);
+                if (applyButton) {
+                    applyButton.outerHTML = `<button class="bg-gray-400 text-white px-4 py-2 rounded-md mt-2 cursor-not-allowed" disabled>Applied</button>`;
+                }
+            } catch (error) {
+                console.error('Error applying for internship:', error);
+                alert('Failed to apply for internship. Please try again later.');
+            }
+        }
+        // Handle form submission for resume upload
+        document.getElementById('resume-form').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Prevent page reload
+
+            const resumeLink = document.getElementById('resume').value;
+
+            try {
+                const response = await fetch('/student/upload-resume', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ resume: resumeLink })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message); // ✅ show success message
+                } else {
+                    alert(`Error: ${result.message}`);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('An error occurred while uploading the resume.');
+            }
+        });
+
+        // Call the function when the page loads
+        document.addEventListener('DOMContentLoaded', fetchInternships);
     </script>
 </body>
 

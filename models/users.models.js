@@ -2,7 +2,7 @@ const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 
 const userSchema = new Schema({
-    prn: {
+    "Roll No": {
         type: String,
         required: true,
         unique: true
@@ -36,11 +36,51 @@ const userSchema = new Schema({
         required: true,
         match: /.+\@.+\..+/ // Simple regex for email validation
     },
-    password: {
+    Gender: { 
+        type: String, 
+        required: true,
+        enum: ['MALE', 'FEMALE', 'OTHER'] 
+    },
+    DOB: { 
         type: String,
         required: true,
-        match: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, // Password regex
-        message: 'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.'
+        match: /^([0-2][0-9]|(3)[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/ // Validate dd/mm/yyyy format
+    },
+    "Reservation Category": {
+        type: String,
+        required: true,
+    },
+    "Current Address": {
+        type: String,
+        required: true
+    },
+    "Permanent Address": {
+        type: String,
+        required: true
+    },
+    "Current Term Score": {
+        type: Number,
+        required: true
+    },
+    "Xth percentage": {
+        type: Number,
+        required: true
+    },
+    "Xth Board": {
+        type: String,
+        required: true
+    },
+    "Year of passing 10th": {
+        type: Number,
+        required: true
+    },
+    "XIIth percentage": {
+        type: Number,
+        required: true
+    },
+    "XIIth Board": {
+        type: String,
+        required: true
     },
     "Year of passing 12th": {
         type: Number,
@@ -60,27 +100,13 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    "Applied At": {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    "Current Stage": {
-        type: Number,
-        required: true
-    },
-    "Application Status": {
-        type: String,
-        required: true
-    },
     "Resume Link": {
         type: String,
         required: true
     },
-    "Last Edited": {
-        type: Date,
+    password: {
+        type: String,
         required: true,
-        default: Date.now
     }
 });
 const User = mongoose.model('users', userSchema);

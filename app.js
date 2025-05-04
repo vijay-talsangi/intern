@@ -9,12 +9,16 @@ const path = require('path');
 const ejsmate = require('ejs-mate');
 const authRouter = require('./routes/auth.routes');
 const studentRouter = require('./routes/student.routes');
+const adminRouter = require('./routes/admin.routes');
+const ExpressError = require('./utils/ExpressError');
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.json()); // Parse JSON bodies
 // Configure session middleware
 app.use(
   session({
@@ -38,10 +42,14 @@ app.get('/', (req, res) => {
 });
 app.use('/auth', authRouter);
 app.use('/student', studentRouter);
+app.use('/admin', adminRouter);
+app.use((req, res) => {
+  res.redirect('/');
+});
 
 app.use((err, req, res, next) => {
   let {statusCode=500, message="Something went wrong"} = err;
-  res.status(statusCode).send(message);
+  res.status(statusCode).render('error', { message});
 }
 );
 

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto text-center">
+          <h1 class="text-2xl font-bold">Student Registeration</h1>
+        </div>
+    </header>
+    <% if (error) { %>
+        <div id="error-box" class="bg-red-500 text-white p-4 text-center relative">
+          <p><%= error %></p>
+          <button onclick="closeErrorBox()" class="absolute top-0 right-0 mt-2 mr-2 text-white font-bold">
+            &times;
+          </button>
+        </div>
+      <% } %>
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Sign Up</h1>
+      <form id="signupForm" action="/auth/signup" method="POST" class="space-y-4" onsubmit="return validateForm()">
+        <!-- Roll No -->
+        <div>
+          <label for="rollNo" class="block text-gray-700">PRN</label>
+          <input type="text" id="rollNo" name="Roll No" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Name -->
+        <div>
+          <label for="name" class="block text-gray-700">Name</label>
+          <input type="text" id="name" name="Name" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Department -->
+        <div>
+          <label for="department" class="block text-gray-700">Department</label>
+          <input type="text" id="department" name="Department" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Course -->
+        <div>
+          <label for="course" class="block text-gray-700">Course</label>
+          <input type="text" id="course" name="Course" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Program -->
+        <div>
+          <label for="program" class="block text-gray-700">Program</label>
+          <input type="text" id="program" name="Program" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Current Term -->
+        <div>
+          <label for="currentTerm" class="block text-gray-700">Current Term</label>
+          <input type="number" id="currentTerm" name="Current Term" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Mobile -->
+        <div>
+          <label for="mobile" class="block text-gray-700">Mobile</label>
+          <input type="tel" id="mobile" name="Mobile" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-gray-700">Email</label>
+          <input type="email" id="email" name="Email ID" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Gender -->
+        <div>
+          <label for="gender" class="block text-gray-700">Gender</label>
+          <select id="gender" name="Gender" class="w-full p-2 border rounded-md" required>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+        <!-- DOB -->
+        <div>
+            <label for="dob" class="block text-gray-700">Date of Birth</label>
+            <input type="date" id="dob" name="DOB" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Reservation Category -->
+        <div>
+          <label for="reservationCategory" class="block text-gray-700">Reservation Category</label>
+          <input type="text" id="reservationCategory" name="Reservation Category" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Current Address -->
+        <div>
+          <label for="currentAddress" class="block text-gray-700">Current Address</label>
+          <textarea id="currentAddress" name="Current Address" class="w-full p-2 border rounded-md" required></textarea>
+        </div>
+        <!-- Permanent Address -->
+        <div>
+          <label for="permanentAddress" class="block text-gray-700">Permanent Address</label>
+          <textarea id="permanentAddress" name="Permanent Address" class="w-full p-2 border rounded-md" required></textarea>
+        </div>
+        <!-- Current Term Score -->
+        <div>
+          <label for="currentTermScore" class="block text-gray-700">Current Term Score</label>
+          <input type="number" step="0.01" id="currentTermScore" name="Current Term Score" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Xth Percentage -->
+        <div>
+          <label for="xthPercentage" class="block text-gray-700">Xth Percentage</label>
+          <input type="number" step="0.01" id="xthPercentage" name="Xth percentage" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Xth Board -->
+        <div>
+          <label for="xthBoard" class="block text-gray-700">Xth Board</label>
+          <input type="text" id="xthBoard" name="Xth Board" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Year of Passing 10th -->
+        <div>
+          <label for="yearOfPassing10th" class="block text-gray-700">Year of Passing 10th</label>
+          <input type="number" id="yearOfPassing10th" name="Year of passing 10th" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- XIIth Percentage -->
+        <div>
+          <label for="xiithPercentage" class="block text-gray-700">XIIth Percentage</label>
+          <input type="number" step="0.01" id="xiithPercentage" name="XIIth percentage" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- XIIth Board -->
+        <div>
+          <label for="xiithBoard" class="block text-gray-700">XIIth Board</label>
+          <input type="text" id="xiithBoard" name="XIIth Board" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Year of Passing 12th -->
+        <div>
+          <label for="yearOfPassing12th" class="block text-gray-700">Year of Passing 12th</label>
+          <input type="number" id="yearOfPassing12th" name="Year of passing 12th" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Lateral Entry -->
+        <div>
+          <label for="lateralEntry" class="block text-gray-700">Lateral Entry</label>
+          <select id="lateralEntry" name="Lateral Entry" class="w-full p-2 border rounded-md" required>
+            <option value="YES">Yes</option>
+            <option value="NO">No</option>
+          </select>
+        </div>
+        <!-- Backlogs -->
+        <div>
+          <label for="backlogs" class="block text-gray-700">Backlogs</label>
+          <select id="backlogs" name="Backlogs" class="w-full p-2 border rounded-md" required>
+            <option value="YES">Yes</option>
+            <option value="NO">No</option>
+          </select>
+        </div>
+        <!-- College -->
+        <div>
+          <label for="college" class="block text-gray-700">College</label>
+          <input type="text" id="college" name="College" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Resume Link -->
+        <div>
+          <label for="resumeLink" class="block text-gray-700">Resume Link</label>
+          <input type="url" id="resumeLink" name="Resume Link" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-gray-700">Password</label>
+          <input type="password" id="password" name="password" class="w-full p-2 border rounded-md" required>
+        </div>
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign Up</button>
+        </div>
+    </form>
+    <div class="mt-4 text-center">
+        <a href="/" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">Go to Main Page</a>
+    </div>
+    <p class="mt-4 text-center text-gray-700">
+        Have an account? <a href="/auth/login" class="text-blue-600 hover:underline">Log in here</a>.
+    </p>
+    </div>
+  </div>
+  <script>
+    function closeErrorBox() {
+      const errorBox = document.getElementById('error-box');
+      if (errorBox) {
+        errorBox.style.display = 'none';
+      }
+    }
+    function validateForm() {
+            const rollNo = document.getElementById('rollNo').value.trim();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Validate Roll No
+            if (!rollNo) {
+                alert('Roll No is required.');
+                return false;
+            }
+
+            // Validate Name
+            if (!name) {
+                alert('Name is required.');
+                return false;
+            }
+
+            // Validate Email
+            const emailRegex = /.+\@.+\..+/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+            
+            // Validate Password
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                alert('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+                return false;
+            }
+
+            return true; // Allow form submission
+    }
+  </script>
+</body>
+</html>
